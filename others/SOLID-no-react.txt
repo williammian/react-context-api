@@ -1,0 +1,20 @@
+SOLID no React
+
+SOLID é um conceito de POO (Programação Orientada a Objetos) muito forte em linguagens orientadas a Objetos como Java e C#. 
+Cada letra da sigla SOLID é a inicial de um dos princípio que regem a POO, para criarmos um código mais consistente, 
+limpo e saudável a longo prazo.
+
+1. S — Single Responsiblity Principle (Princípio da responsabilidade única)
+https://marcosviniciosneves.medium.com/solid-em-react-entendendo-o-single-responsibility-principle-srp-4a2028b35c41
+
+2. O — Open-Closed Principle (Princípio Aberto-Fechado)
+https://marcosviniciosneves.medium.com/solid-em-react-princ%C3%ADpio-do-aberto-fechado-ocp-dc7bdbfbc62c
+
+3. L — Liskov Substitution Principle (Princípio da substituição de Liskov)
+https://marcosviniciosneves.medium.com/solid-em-react-de-olho-na-substitui%C3%A7%C3%A3o-de-liskov-180c9a3e9877
+
+4. I — Interface Segregation Principle (Princípio da Segregação da Interface)
+https://marcosviniciosneves.medium.com/solid-em-react-o-princ%C3%ADpio-da-segrega%C3%A7%C3%A3o-de-interface-979954315998
+
+5. D — Dependency Inversion Principle (Princípio da inversão da dependência)
+https://marcosviniciosneves.medium.com/solid-em-react-explorando-a-invers%C3%A3o-de-depend%C3%AAncia-145131bb0ad6

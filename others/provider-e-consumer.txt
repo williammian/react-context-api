@@ -1,0 +1,65 @@
+Provider e Consumer
+
+Você já ouviu falar em um jogo chamado Cities: Skylines? Um jogo de construção de cidades. 
+Conforme sua cidade cresce, você deve cuidar dos prédios, distritos, linhas de transporte público, pistas e tudo o que for construído.
+
+Agora imagine que estamos construindo uma cidade no Cities: Skylines, e queremos que diferentes regiões compartilhem informações 
+valiosas de forma eficiente, como previsões de tráfego. O Context API é como um centro de controle de tráfego, 
+tornando a comunicação entre bairros mais suave e organizada.
+
+Antes do Context API, informar todos as regiões sobre a situação do tráfego significava enviar mensageiros para cada rua. 
+Isso pode ser ineficiente e complicado, especialmente se tivermos muitas regiões (ou componentes) na cidade.
+
+Você já deve saber onde eu quero chegar com essa analogia. Para compartilhar as informações do tráfego a gente cria um contexto 
+com o createContext(). Este método cria um contexto e retorna dois componentes: o Provider e o Consumer. 
+O Provider é como construir uma central de informações de tráfego no centro da cidade:
+
+const TrafegoContext = React.createContext();
+
+function Cidade() {
+  return (
+    <TrafegoContext.Provider value={{ congestion: 'Moderado' }}>
+      {/* Regiões (componentes filhos) aqui */}
+    </TrafegoContext.Provider>
+  );
+}
+
+Para que as regiões da cidade possam acessar essa informação, usamos o Consumer. 
+É como se cada rua tivesse uma tela que mostra a situação do tráfego:
+
+function Rua() {
+  return (
+    <TrafegoContext.Consumer>
+      {({ congestion }) => (
+        <p>A situação do tráfego nesta rua é: {congestion}.</p>
+      )}
+    </TrafegoContext.Consumer>
+  );
+}
+
+Em termos teóricos, o createContext retorna um objeto com dois componentes: o Provider e o Consumer. 
+O Provider é usado para envolver a parte da aplicação que fornece os dados, enquanto o Consumer é utilizado 
+nos componentes que precisam acessar esses dados. Eles formam uma dupla poderosa para resolver o problema de comunicação na nossa cidade.
+
+Agora, vimos que podemos usar o hook useContext nos componentes que precisam acessar esses dados. 
+Imagine que o useContext é como um rádio para cada rua, sintonizado na frequência da central de informações de tráfego (Provider). 
+Ambos servem para acessar o contexto, mas o useContext é mais conciso e pode tornar o código mais limpo, 
+especialmente se tivermos muitas ruas para equipar. O Consumer pode criar um código mais aninhado, enquanto que o useContext não. 
+Exemplo:
+
+import React, { useContext } from 'react';
+
+function Rua() {
+  const { congestion } = useContext(TrafegoContext);
+
+  return (
+    <p>A situação do tráfego nesta rua é: {congestion}.</p>
+  );
+}
+
+Em resumo, escolher entre o Consumer e o useContext depende do contexto (sem trocadilhos). Se a legibilidade é crucial, 
+o useContext pode ser a escolha mais elegante, enquanto o Consumer é uma opção mais explícita em casos onde a clareza é prioritária. 
+Ambos têm seu lugar na cidade React, ajudando a manter a comunicação entre as regiões de forma eficaz.
+
+Se você quiser se aprofundar mais no uso do useContext() eu recomendo que você acesse a documentação do próprio React.
+https://react.dev/reference/react/useContext
