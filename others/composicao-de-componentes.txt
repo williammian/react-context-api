@@ -1,0 +1,92 @@
+Composição de componentes
+
+Em nosso projeto React, estamos lidando com uma hierarquia de componentes, onde a necessidade de compartilhar dados entre eles é comum. 
+No entanto, frequentemente nos deparamos com o problema do "prop drilling", que ocorre quando precisamos passar dados por vários níveis 
+de componentes intermediários, mesmo que esses componentes intermediários não utilizem diretamente esses dados.
+
+O "prop drilling" torna nosso código mais complexo, menos eficiente e difícil de manter. Às vezes, podemos acabar transmitindo as 
+mesmas propriedades por muitos componentes intermediários, o que prejudica a clareza do código e o torna mais suscetível a erros.
+
+Uma forma de evitar o "prop drilling" é aplicar o conceito de composição de componentes. Em vez de passar dados por muitos níveis 
+de aninhamento, extraímos componentes ao longo do caminho para simplificar a estrutura. Isso significa fornecer diretamente 
+os dados aos componentes que realmente precisam deles, em vez de transmiti-los através de vários componentes intermediários.
+
+Por exemplo, poderíamos ter definido um array com os links do menu no componente de <BarraNavegacao/> 
+e passado os links para o componente de <Menu/> dessa forma:
+
+// importações
+
+import { useLocation } from "react-router-dom";
+
+const links = [
+  { name: "Home", path: "/" },
+  { name: "Carrinho", path: "/carrinho" },
+  { name: "Lojas", path: "/lojas" },
+  { name: "Novidades", path: "/novidades" },
+  { name: "Promoções", path: "/promocoes" },
+];
+
+const BarraNavegacao = () => {
+    // CÓDIGO OCULTO
+  return (
+    <header>
+      <nav className="navbar navbar-expand-md bg-black navbar-dark">
+        // CÓDIGO OCULTO
+          <div className="collapse navbar-collapse" id="conteudoBarraNavegacao">
+            <Menu links={links} />
+            // CÓDIGO OCULTO
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default BarraNavegacao;
+
+E no componente de Menu receber esses links via props e passar eles para o nosso componente <MenuItem /> também via props.
+
+import MenuItem from "./MenuItem";
+
+const Menu = (props) => {
+  return (
+    <ul className="navbar-nav me-auto">
+      {props.links.map((link) => (
+        <MenuItem key={link.path} link={link} />
+      ))}
+    </ul>
+  );
+};
+
+export default Menu;
+
+Mas veja que isso não faz sentido, visto que só usamos os links no componente de Menu e passamos eles via props para o componente 
+de MenuItem. Então o mais correto a se fazer, seria definir os links dentro do componente de Menu, concorda?
+
+Dessa forma o componente de Menu ficaria:
+
+import MenuItem from "./MenuItem";
+
+const links = [
+  { name: "Home", path: "/" },
+  { name: "Carrinho", path: "/carrinho" },
+  { name: "Lojas", path: "/lojas" },
+  { name: "Novidades", path: "/novidades" },
+  { name: "Promoções", path: "/promocoes" },
+];
+
+const Menu = () => {
+  return (
+    <ul className="navbar-nav me-auto">
+      {links.map((link) => (
+        <MenuItem key={link.path} link={link} />
+      ))}
+    </ul>
+  );
+};
+
+export default Menu;
+
+Dessa forma evitamos uma passagem de propriedades para um componente a mais. Ao aplicar a composição de componentes dessa maneira, 
+tornamos nosso código mais eficiente, legível e fácil de manter. Evitamos o "prop drilling" ao passar dados diretamente para os 
+componentes que realmente necessitam deles, em vez de propagá-los por uma série de componentes intermediários.

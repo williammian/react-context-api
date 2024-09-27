@@ -1,0 +1,2 @@
+https://www.figma.com/community/file/1410403957296992419/react-gerencie-estados-globalmente-com-context-api-meteora
+

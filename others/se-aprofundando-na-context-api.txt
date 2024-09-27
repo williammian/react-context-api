@@ -1,0 +1,73 @@
+Se aprofundando na Context API
+
+Vamos pensar em um aplicativo de lista de tarefas, onde você tem diferentes seções para tarefas urgentes e não urgentes. 
+Tem uma seção geral onde você consegue visualizar todas as tarefas mas tem também seções individuais onde você consegue 
+ver as tarefas urgentes e não urgentes de forma separada. Porém, você deseja compartilhar a capacidade de marcar uma tarefa 
+como concluída em ambas as seções.
+
+Como garantir que, ao marcar uma tarefa como concluída em sua própria seção, ela também seja marcada como concluída na 
+seção geral sem passar manualmente a informação entre os componentes?
+
+Aqui entra a Context API do React. É como ter uma marcação global em suas tarefas, onde, ao marcar como concluída em um lugar, 
+automaticamente afeta todos os outros lugares que exibem a mesma tarefa.
+
+A Context API é uma maneira de compartilhar dados globalmente entre componentes sem a necessidade de passar propriedades manualmente. 
+Ela ajuda a evitar a "prop drilling", tornando o compartilhamento de informações mais direto.
+
+Exemplos de onde aplicar a Context API:
+
+1. Autenticação de Usuário:
+
+Manter o estado de autenticação do usuário globalmente, permitindo que componentes em qualquer parte da aplicação acessem 
+informações sobre o usuário logado.
+
+2. Temas e Estilos:
+
+Compartilhar informações sobre o tema atual da aplicação, como cores, fontes e estilos, para garantir uma consistência visual 
+em toda a aplicação.
+
+3. Configurações do Usuário:
+
+Armazenar preferências e configurações do usuário para que elas possam ser acessadas e modificadas em diferentes partes da interface.
+
+4. Internacionalização (i18n):
+
+Manter as informações de idioma selecionado globalmente, permitindo que todos os componentes se adaptem ao idioma escolhido pelo usuário.
+
+Quando Usar a Context API:
+
+Use a Context API quando:
+
+- Houver a necessidade de compartilhar informações ou estado entre componentes que estão distantes na árvore de componentes.
+
+- Evitar a "prop drilling" (passar propriedades através de vários níveis de componentes) se tornar impraticável ou confuso.
+
+Dicas para Melhor Uso:
+
+- Use a Context API para compartilhar dados que são verdadeiramente globais na aplicação.
+
+- Avalie a necessidade de re-renderização de componentes dependentes do contexto ao realizar atualizações.
+
+Se você quiser saber mais sobre o que é, os casos de uso, quando usar, vantagens e desvantagens da Context API, 
+e até entender o que é o fenômeno de prop drilling eu recomendo fortemente que você dê uma lida na documentação 
+(https://react.dev/learn/passing-data-deeply-with-context) para reforçar seus aprendizados.
+
+-----------------------------------------------------------
+
+export const CarrinhoProvider = ({ children }) => {
+  return (
+    <CarrinhoContexto.Provider>
+      {children}
+    </CarrinhoContexto.Provider>
+  );
+};
+
+Qual o papel deste Provider na aplicação?
+
+O Provider é o meio pelo qual os dados são fornecidos ao Contexto. 
+Ele é responsável por abrigar os dados que são compartilhados entre os componentes.
+
+Um Provider fornece os dados para os componentes que estão consumindo aquele contexto específico. 
+Estamos criando um Provider para o Carrinho de compras, então ele irá prover os dados do carrinho para qualquer componente que o consuma.
+
+-------------------------------------------------------------
