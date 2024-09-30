@@ -1,0 +1,91 @@
+Quando criar hooks customizados?
+
+Imagine que estamos construindo uma fábrica de brinquedos, e diferentes departamentos precisam gerenciar diferentes aspectos 
+do processo de produção. Os Hooks Customizados são como ferramentas especializadas que facilitam o trabalho de cada departamento, 
+tornando a fabricação de brinquedos mais eficiente.
+
+À medida que a fábrica cresce, cada departamento precisa de funcionalidades específicas que não são abordadas diretamente pelos 
+hooks padrão do React. Usar muitos estados e efeitos em cada componente pode tornar o código complexo e difícil de manter.
+
+A solução é usar Hooks Customizados, que são funções que encapsulam a lógica relacionada e podem ser compartilhadas entre 
+diferentes partes da aplicação. Vamos criar um exemplo de um Hook Customizado chamado useFabricaDeBrinquedos:
+
+import { useState, useEffect } from 'react';
+
+function useFabricaDeBrinquedos(brinquedoInicial) {
+  const [brinquedo, setBrinquedo] = useState(brinquedoInicial);
+
+  useEffect(() => {
+    // Lógica de efeito específica para a fábrica de brinquedos
+    console.log('Produzindo um novo brinquedo:', brinquedo);
+
+    // Lógica de limpeza
+    return () => {
+      console.log('Limpando após a produção do brinquedo:', brinquedo);
+    };
+  }, [brinquedo]);
+
+  const produzirBrinquedo = (novoBrinquedo) => {
+    setBrinquedo(novoBrinquedo);
+  };
+
+  return { brinquedo, produzirBrinquedo };
+}
+
+Esse hook tem um estado que recebe como estado inicial um brinquedo. Dentro do useEffect adicionamos um efeito, que é só uma mensagem 
+de que o brinquedo está sendo produzido e depois limpamos esse efeito. Dentro do hook temos também uma função que atualiza a produção 
+de brinquedos. Quando usamos ela estaremos passando um novo brinquedo para ser produzido. No fim, retornamos nosso estado e a função 
+que atualiza ele.
+
+Agora, imaginemos dois departamentos da fábrica, cada um usando nosso Hook Customizado:
+
+// Departamento de Bonecas
+function DepartamentoDeBonecas() {
+  const { brinquedo, produzirBrinquedo } = useFabricaDeBrinquedos('Boneca');
+
+  // Lógica específica do departamento de bonecas
+  // ...
+
+  return (
+    <div>
+      <p>{`Brinquedo produzido no departamento de bonecas: ${brinquedo}`}</p>
+      {/* Mais renderizações do departamento de bonecas */}
+    </div>
+  );
+}
+
+// Departamento de Carros
+function DepartamentoDeCarros() {
+  const { brinquedo, produzirBrinquedo } = useFabricaDeBrinquedos('Carrinho');
+
+  // Lógica específica do departamento de carros
+  // ...
+
+  return (
+    <div>
+      <p>{`Brinquedo produzido no departamento de carros: ${brinquedo}`}</p>
+      {/* Mais renderizações do departamento de carros */}
+    </div>
+  );
+}
+
+Em cada componente quando usamos o hook useFabricaDeBrinquedos() teremos resultados distintos. No departamento de bonecas produziremos 
+bonecas, enquanto que no departamento de carros produziremos carros.
+
+Entendeu a mágica dos hooks customizados? A gente abstraiu a lógica de produção para um lugar só, no caso o hook useFabricaDeBrinquedos() 
+e para confeccionar brinquedos específicos usamos ele em componentes específicos passando o brinquedo que queremos produzir. Legal né?
+
+Quando usar Hooks Customizados:
+
+- Quando a lógica é reutilizável: Use Hooks Customizados quando tiver lógica específica que pode ser compartilhada entre vários componentes. 
+Isso promove a reutilização de código.
+
+- Quando você precisa de mais controle: Se a lógica envolve estados, efeitos ou outras funcionalidades complexas, os Hooks Customizados 
+oferecem maior controle e modularidade.
+
+- Quando você quer manter seus componentes simples: Use Hooks Customizados para manter seus componentes mais limpos e focados, 
+delegando lógica específica para funções especializadas.
+
+Em resumo, use Hooks Customizados no React quando precisar encapsular e reutilizar lógica específica em diferentes partes da sua aplicação.
+Eles são como ferramentas especializadas que facilitam a gestão de funcionalidades específicas, tornando seu código mais limpo, 
+modular e fácil de manter.

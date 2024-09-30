@@ -1,0 +1,87 @@
+Contextos aninhados
+
+Você gosta de ler? Costuma frequentar bibliotecas na sua escola, faculdade ou na sua cidade? Eu gosto bastante. 
+Se você já foi em uma biblioteca pelo menos uma vez na vida eu quero que você imagine comigo que estamos criando 
+uma biblioteca em nossa cidade chamada React, onde diferentes estantes precisam compartilhar informações sobre os livros disponíveis.
+
+A ideia aqui é ter prateleiras específicas em uma grande biblioteca, cada uma com seu próprio conjunto de livros.
+
+Às vezes, a biblioteca precisa compartilhar informações globais, como a política de empréstimo, enquanto cada prateleira 
+precisa saber sobre informações específicas dos livros que contém. Usar um único contexto para tudo pode tornar o código 
+confuso e menos modular.
+
+A solução é implementar contextos aninhados, criando um contexto mais amplo (global) e outros mais específicos (locais).
+
+Vamos criar um contexto global chamado BibliotecaContext:
+
+const BibliotecaContext = createContext();
+
+function BibliotecaProvider({ children }) {
+  return (
+    <BibliotecaContext.Provider value={{ globalInfo: 'Política de Empréstimo' }}>
+      {children}
+    </BibliotecaContext.Provider>
+  );
+}
+
+Para informações específicas de cada prateleira, podemos criar um contexto local chamado PrateleiraContext:
+
+const PrateleiraContext = createContext();
+
+E, dentro do componente Prateleira, podemos utilizar esse contexto local:
+
+function PrateleiraProvider({ children }) {
+  return (
+    <PrateleiraContext.Provider value={{ localInfo: 'Livros de Ficção' }}>
+      {children}
+    </PrateleiraContext.Provider>
+  );
+}
+
+Agora, vamos imaginar um componente Livro que precisa acessar informações do contexto global e local:
+
+function Book() {
+  const {globalInfo} = useContext(BibliotecaContext);
+  const {localInfo} = useContext(PrateleiraContext);
+
+  return (
+    <div>
+      <p>{globalInfo}</p>
+      <p>{localInfo}</p>
+      {/* Mais renderizações do componente Book */}
+    </div>
+  );
+}
+
+Aqui, o Livro tem acesso tanto às informações globais da biblioteca quanto às informações específicas da prateleira onde está localizado. 
+Essa abordagem modulariza o código, facilitando a manutenção e compreensão.
+
+Só que para que o nosso componente Book conheça o contexto da Biblioteca e o contexto de Prateleira ele deve estar envolvo nos componentes 
+que provem esses contextos da seguinte maneira:
+
+// importaçoes
+
+function App() {
+  return (
+    <BibliotecaProvider>
+      <PrateleiraProvider>
+        <Book/>
+      </PrateleiraProvider>
+    </BibliotecaProvider>
+  );
+}
+
+Note que os contextos da nossa aplicação estão aninhados, e para eu conhecer o contexto de prateleira eu devo conhecer também 
+o de biblioteca, já que ele é mais geral/global.
+
+Quando usar contextos aninhados:
+
+- Quando há diferentes níveis de hierarquia: Use contextos aninhados quando a hierarquia dos componentes reflete a necessidade 
+de compartilhar dados em diferentes níveis de escopo.
+
+- Quando existem dados globais e locais: Se você tem dados que são relevantes para toda a aplicação (global) e dados mais 
+específicos para certas partes (local), contextos aninhados oferecem uma maneira organizada de gerenciar essas informações.
+
+Em resumo, usar contextos aninhados no React com a Context API é uma prática eficaz para lidar com diferentes níveis de 
+escopo de dados em sua aplicação, proporcionando organização e modularidade. Isso é especialmente útil quando você tem 
+informações globais e locais que precisam ser compartilhadas entre diferentes partes do seu aplicativo.
