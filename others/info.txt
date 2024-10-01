@@ -1,3 +1,11 @@
 para rodar o projeto
 
 npm run dev
+
+-------------------------------
+
+Extensões no Chrome
+
+React Developer Tools
+
+React Context DevTool
