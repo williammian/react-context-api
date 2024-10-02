@@ -1,0 +1,60 @@
+hook useMemo()
+
+Imagine que você é um funcionário de um restaurante movimentado e precisa preparar vários pratos ao mesmo tempo. 
+Cada prato requer uma combinação única de ingredientes e tempo de preparo.
+
+Se você não faz o preparo dos ingredientes, o chamado Mise en place (O significado é simples: colocado em ordem ou posto no lugar), 
+pode acabar tendo que preparar o mesmo ingrediente algumas vezes, mesmo quando não há necessidade.
+Vai ver por descuido ou desatenção isso acontece e pode acabar sendo ineficiente, consumindo seu tempo e recursos mais do que o necessário.
+
+É aqui onde o useMemo do React entra em jogo. Usar o useMemo é como ter uma lista organizada de ingredientes já preparados 
+que você pode reutilizar sempre que precisar, economizando tempo e garantindo eficiência na cozinha. 
+Vamos compreender o funcionamento do useMemo com um exemplo de código:
+
+import React, { useMemo } from 'react';
+
+const Prato = ({ ingredientes }) => {
+  // Problema: Preparar os ingredientes toda vez, mesmo que não seja necessário
+  const prepararIngredientes = (ingredientes) => {
+    console.log('Preparando ingredientes...');
+    // Lógica intensiva de preparo
+    return ingredientes.join(', ');
+  };
+
+  // Solução: Use o useMemo para memorizar o resultado da função prepararIngredientes
+  const ingredientesPreparados = useMemo(() => prepararIngredientes(ingredientes), [ingredientes]);
+
+  return (
+    <div>
+      <p>Ingredientes preparados: {ingredientesPreparados}</p>
+    </div>
+  );
+};
+
+1- Componente Prato:
+
+- O componente Prato recebe um array de ingredientes como propriedade.
+
+- Existe uma função prepararIngredientes que simula uma lógica intensiva de preparo, unindo os ingredientes em uma string.
+
+2- Utilização do useMemo:
+
+- O useMemo é aplicado para memorizar o resultado da função prepararIngredientes. 
+Isso significa que, se os ingredientes não mudarem entre as renderizações, o valor memoizado será reutilizado em vez de recalculado.
+
+- No exemplo, o useMemo recebe a função () => prepararIngredientes(ingredientes) e a dependência [ingredientes]. 
+Isso indica que o resultado deve ser memoizado apenas quando os ingredientes mudarem.
+
+- Quando os ingredientes de um prato mudam, o useMemo garante que a função prepararIngredientes seja chamada 
+apenas se os ingredientes realmente mudarem.
+
+- Isso é evidenciado pelo console.log na função prepararIngredientes. Se os ingredientes não mudarem, 
+a mensagem "Preparando ingredientes..." não será exibida, indicando que a função foi memoizada.
+
+No mundo do React, o useMemo é um hook que memoiza, ou armazena em memória, 
+o resultado de uma função para evitar recálculos desnecessários. 
+Ele é especialmente útil em situações em que o cálculo de um valor é intensivo e pode ser reutilizado, 
+economizando assim recursos de computação.
+
+
+

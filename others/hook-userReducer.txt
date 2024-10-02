@@ -1,0 +1,84 @@
+hook useReducer()
+
+Vamos pensar que você e seus amigos estão imersos em um jogo de RPG estilo D&D (Dungeons & Dragons). 
+Cada um de vocês controla um herói em um mundo cheio de aventuras e desafios. 
+À medida que o jogo avança, fica complicado controlar tudo o que está acontecendo. 
+As ações dos personagens, os eventos no mundo fictício e as reviravoltas inesperadas podem tornar difícil manter o controle da história.
+
+Aqui entra o useReducer do React, como um mestre de jogos que ajuda a coordenar e manter o 
+controle dessas reviravoltas e eventos na história. 
+É como ter um narrador experiente que organiza as ações dos personagens para que a 
+história do jogo seja emocionante e fácil de acompanhar.
+
+Quer um exemplo? Vamos lá!
+
+// Função redutora: Nosso "mestre de jogo"
+const mestreDeJogo = (estadoAtual, acao) => {
+  switch (acao.type) {
+    case 'MOVIMENTO_PERSONAGEM':
+      return { ...estadoAtual, posicaoPersonagem: acao.novaPosicao };
+    case 'ENCONTRAR_TESOURO':
+      return { ...estadoAtual, tesouroEncontrado: true };
+    default:
+      return estadoAtual;
+  }
+};
+
+A função mestreDeJogo é chamada de função redutora e é como o narrador que decide o que acontece no jogo com base nas ações dos jogadores.
+
+import React, { useReducer } from 'react';
+
+const JogoDeRPG = () => {
+  // Usando o useReducer para gerenciar o estado do jogo
+  const [estadoJogo, dispatch] = useReducer(mestreDeJogo, {
+    posicaoPersonagem: [0, 0],
+    tesouroEncontrado: false,
+  });
+
+  // Exemplo de ação: Movimentar o personagem
+  const moverPersonagem = (novaPosicao) => {
+    dispatch({ type: 'MOVIMENTO_PERSONAGEM', novaPosicao });
+  };
+
+  // Exemplo de ação: Encontrar um tesouro
+  const encontrarTesouro = () => {
+    dispatch({ type: 'ENCONTRAR_TESOURO' });
+  };
+
+  return (
+    <div>
+      <p>Posição do Personagem: {JSON.stringify(estadoJogo.posicaoPersonagem)}</p>
+      <p>Tesouro Encontrado: {estadoJogo.tesouroEncontrado ? 'Sim' : 'Não'}</p>
+      <button onClick={() => moverPersonagem([1, 1])}>Mover o Personagem</button>
+      <button onClick={encontrarTesouro}>Encontrar Tesouro</button>
+    </div>
+  );
+};
+
+export default JogoDeRPG;
+
+1. Utilização do useReducer:
+
+- const [estadoJogo, dispatch] = useReducer(mestreDeJogo, { posicaoPersonagem: [0, 0], tesouroEncontrado: false }); : 
+Nesta linha a gente usa a função redutora no useReducer. E no segundo parâmetro do hook passamos um estado inicial, 
+que é a posição e se ele encontrou o tesouro ou não.
+
+- estadoJogo é o estado atual do jogo, e dispatch é como enviar uma ação para o mestre de jogo. 
+O dispatch dispara uma das ações de mover o personagem ou achar o tesouro.
+
+2. Ações:
+
+- moverPersonagem e encontrarTesouro são ações que influenciam a história do jogo. 
+Por exemplo, moverPersonagem([1, 1]) faz o personagem se mover para uma nova posição. 
+Essas ações são passadas como um objeto que contém um type e um payload. 
+O type é o tipo de ação e o payload é o dado daquele estado que vamos alterar ou não.
+
+3. Renderização:
+
+- A interface do usuário reflete o estado do jogo. 
+Clicar nos botões realiza ações que afetam a história, tornando o jogo mais emocionante.
+
+Este é um exemplo simples de como o useReducer funciona e como ele serve para que você consiga 
+utilizar uma lógica personalizada para manipular seus estados. 
+Também é possível notar a importância do useReducer principalmente se o seu estado escalar para uma lógica complexa. 
+Essa lógica complexa será muito bem gerenciada na função redutora e acionada com o tipo e os dados corretos.
